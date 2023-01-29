@@ -16,6 +16,7 @@ def importDatasets():
     df = df.merge(data_spotify, on = 'url', indicator = True, how = 'left')
     df.drop(['artist_y', 'track_x', 'artist', 'track_y', '_merge'], axis = 1, inplace= True)
     df.rename({'artist_x':'artist', 'date_x':'playlist_date', 'date_y':'release_date'}, inplace=True, axis=1)
+    df['playlist_date'] = pd.to_datetime(df['playlist_date'])
     df['month'] = df['playlist_date'].dt.month
     df['year'] = df['playlist_date'].dt.year
     df['date'] = df['year'].astype(str) + '-' + df['month'].astype(str)

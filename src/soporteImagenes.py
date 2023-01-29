@@ -37,19 +37,9 @@ def general_chart(df, playlist_input, column = 'valence', chart_type = 'boxplot'
     plt.tight_layout()
     plt.savefig(f'imagenes/general_{chart_type}_{column}.png')
 
-def general_catplot(df, playlist_input, chart_type = 'swarm'):
-    df_filtered = df[df['chart'] == playlist_input]#[['playlist_date', column]]#.groupby(['date'])['valence'].mean().reset_index()
-    fig, axs = plt.subplots(ncols=1, nrows = len(df['playlist_date'].dt.year.unique().tolist()), figsize = (10, 15), sharex=True,)
-    list_years = df_filtered.sort_values(by = ['playlist_date'])['playlist_date'].dt.year.unique().tolist()
+def general_kde(df, playlist_input, variable = 'key_mapped'):
+    df_filtered = df[df['chart'] == playlist_input]
     sns.set_theme(style="darkgrid")
-    for year in list_years:
-        sns.catplot(
-            data = df_filtered[df_filtered['playlist_date'].dt.year == year], 
-            x = df_filtered[df_filtered['playlist_date'].dt.year == year]['key_mapped'], 
-            hue = df_filtered[df_filtered['playlist_date'].dt.year == year]['mode_mapped'],
-            ax = axs[list_years.index(year)], palette='flare', kind = chart_type
-            )
-        axs[list_years.index(year)].set_title(str(year), fontsize=10, )
-        axs[list_years.index(year)].set_xlabel("")
+    sns.kdeplot(data=df_filtered, x=df_filtered["playlist_date"], hue=df_filtered[variable], multiple="fill", palette = 'pastel')
     plt.tight_layout()
-    plt.savefig(f'imagenes/general_catplot_keymode.png')
+    plt.savefig(f'imagenes/general_kde_{variable}.png')
