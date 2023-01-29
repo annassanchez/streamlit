@@ -19,8 +19,8 @@ def importDatasets():
     df['month'] = df['playlist_date'].dt.month
     df['year'] = df['playlist_date'].dt.year
     df['date'] = df['year'].astype(str) + '-' + df['month'].astype(str)
-    df['key_mapped'] = df['key'].rename(bb.dict_keys, axis = 0)
-    df['mode_mapped'] = df['mode'].rename(bb.dict_scale, axis = 0)
+    df['key_mapped'] = df['key'].replace(bb.dict_keys)
+    df['mode_mapped'] = df['mode'].replace(bb.dict_scale)
     return df
 
 def info_artistas(artista, df):
