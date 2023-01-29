@@ -24,9 +24,10 @@ def importDatasets():
     df['mode_mapped'] = df['mode'].replace(bb.dict_scale)
     return df
 
-def info_artistas(artista, df):
-    sliced_df = df[df['artists'] == artista].groupby(['artist', 'track'])['valence'].mean().reset_index()
-    return sliced_df
+def info_artists(df):
+    top10_artists = df.groupby(['artist'])['streams'].sum().reset_index().sort_values(by = 'streams', ascending = False).head(5)
+    top10_artists['ratio'] = top10_artists['streams'] * 100 / (df[~df['streams'].isnull()]['streams'].sum())
+    return top10_artists
 
 def info_genre(df):
     top10_musicgenre = df.groupby(['music_genre'])['streams'].sum().reset_index().sort_values(by = 'streams', ascending = False).head(5)
