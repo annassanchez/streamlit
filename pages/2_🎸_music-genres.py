@@ -19,7 +19,7 @@ chart = tracks['chart'].unique().tolist()
 chart_input = st.selectbox(f'Choose which playlist you want to analyze', chart)
 
 st.markdown(f"""
-Let's see the evolution of the variables in the given period:
+Let's see the evolution of the `valence`, `danceability` and `energy` in the given period:
 """)
 
 column = st.selectbox('Choose the variable to see the evolution', ['energy', 'danceability', 'valence'])
@@ -30,6 +30,10 @@ st.image(f'imagenes/lineplot_genre_{column}.png')
 chart_type = st.selectbox('Choose the visualization type', ['boxplot', 'violinplot'])
 si.general_chart_genres(tracks, chart_input, top_genres['music_genre'].tolist(), column, chart_type)
 st.image(f'imagenes/genres_{chart_type}_{column}.png')
+
+st.markdown(f"""
+Let's see the `key` and `mode` in the given period:
+""")
 
 si.genre_kde(tracks, chart_input, top_genres['music_genre'].tolist(), 'key_mapped')
 st.image(f'imagenes/genres_kde_key_mapped.png')
